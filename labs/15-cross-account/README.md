@@ -5,8 +5,9 @@ account B read data owned by account A?* Answer: account A defines an IAM role
 whose trust policy allows account B, account B's permission policy allows
 assuming that role, and a session is created via `sts:AssumeRole` — with an
 external ID guarding against the confused-deputy problem. This lab builds the
-whole chain in Floci: a bucket + role in account A, a user in account B, and a
-Terraform provider that actually assumes the role to prove it works.
+whole chain in Floci: a bucket + role in account A, a user in account B — plus
+a follow-up config (`verify-assumed/`) that actually assumes the role through
+Terraform to prove it works.
 
 ## What you'll learn
 
@@ -29,9 +30,9 @@ Account B (`222222222222`):
   policy `assume-role` allowing `sts:AssumeRole` on the role ARN
 
 Proof:
-- `data "aws_caller_identity" "assumed"` — Terraform's own `assumed_from_b`
-  provider starts from B's keys, assumes A's role, and reports the resulting
-  account ID (`assumed_account_id` output → `111111111111`).
+- `verify-assumed/` — a second Terraform config whose provider starts from
+  B's keys and assumes A's role; its `assumed_account_id` output must print
+  `111111111111` (account A), proving the whole chain.
 
 ## Run it
 
@@ -41,8 +42,20 @@ terraform init
 terraform apply
 ```
 
+Then the proof — the role must exist first, which is exactly why it is a
+separate config (a provider cannot assume a role the same apply is about to
+create):
+
+```bash
+cd verify-assumed
+terraform init
+terraform apply
+```
+
 `terraform output assumed_account_id` should print `111111111111` — Terraform
 just proved the cross-account assume works, using account B's static keys.
+Destroy it with `terraform destroy` (data-only config, nothing to clean up),
+then destroy the main config from the parent directory.
 
 ## Verify
 

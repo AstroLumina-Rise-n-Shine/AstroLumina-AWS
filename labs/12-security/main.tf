@@ -34,15 +34,25 @@ provider "aws" {
 }
 
 # The security baseline at its defaults: a customer-managed KMS key (+ alias),
-# a GuardDuty detector, Security Hub enabled and a CloudTrail trail with CMK
-# encryption + log file validation, writing to its own trail S3 bucket.
-# Every toggle (enable_guardduty / enable_security_hub / enable_cloudtrail)
-# defaults to true on purpose -- you switch things OFF explicitly when the
-# sandbox does not need them, never silently.
+# a GuardDuty detector and a CloudTrail trail with CMK encryption + log file
+# validation, writing to its own trail S3 bucket. Every toggle
+# (enable_guardduty / enable_security_hub / enable_cloudtrail) defaults to true
+# on purpose -- you switch things OFF explicitly when the sandbox does not
+# need them, never silently. Here Security Hub is switched off: the Floci
+# emulator cannot disable it once enabled, so the provider resource cannot
+# round-trip (see the module call).
 module "security_baseline" {
   source = "git::https://github.com/AstroLumina-Rise-n-Shine/AstroLumina-Terraform-Library.git//modules/aws_security_baseline?ref=main"
 
   name = "astrolumina-learning-security" # also prefixes the KMS alias and defaults the trail bucket name
+
+  # Floci limitation: Security Hub can be ENABLED through the API but the
+  # emulator cannot disable it again, so EnableSecurityHub starts answering
+  # "already enabled" and the provider's account resource cannot round-trip.
+  # The lab therefore leaves Security Hub out of Terraform state; on real AWS
+  # flip this to true. The rest of the baseline (KMS, GuardDuty, CloudTrail)
+  # is managed normally.
+  enable_security_hub = false
 
   environment = "learning"
   tags = {

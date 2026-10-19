@@ -22,11 +22,14 @@ provider "aws" {
   skip_requesting_account_id  = true
   s3_use_path_style           = true
 
-  # Only the services this lab touches need an endpoint override.
+  # Only the services this lab touches need an endpoint override. sts is here
+  # because the budget module reads the caller account explicitly (Floci never
+  # resolves it on its own with skip_requesting_account_id).
   endpoints {
     budgets = "http://localhost:4566"
     sns     = "http://localhost:4566"
     kms     = "http://localhost:4566"
+    sts     = "http://localhost:4566"
   }
 }
 

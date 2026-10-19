@@ -54,38 +54,9 @@ provider "aws" {
   }
 }
 
-# Terraform itself proves the assume works: this provider starts from account
-# B's static keys and assumes the role living in account A.
-provider "aws" {
-  alias      = "assumed_from_b"
-  region     = "us-east-1"
-  access_key = "222222222222"
-  secret_key = "test"
-
-  # Floci is not real AWS: skip anything that would reach real endpoints.
-  skip_credentials_validation = true
-  skip_metadata_api_check     = true
-  skip_requesting_account_id  = true
-  s3_use_path_style           = true
-
-  assume_role {
-    role_arn     = "arn:aws:iam::111111111111:role/astrolumina-learning-cross-role"
-    session_name = "astrolumina-learning"
-    external_id  = "astrolumina-learning"
-  }
-
-  endpoints {
-    sts = "http://localhost:4566"
-    iam = "http://localhost:4566"
-    s3  = "http://localhost:4566"
-  }
-}
-
-# Proof: with the assumed_from_b provider, GetCallerIdentity must report
-# account A (111111111111) even though the base credentials belong to account B.
-data "aws_caller_identity" "assumed" {
-  provider = aws.assumed_from_b
-}
+# The Terraform-side proof of the assume lives in verify-assumed/: run it
+# after this config applied. A provider cannot assume a role that the same
+# apply is still about to create, so the proof cannot live in this config.
 
 # ---- Account A: the data bucket -------------------------------------------
 module "data_bucket" {

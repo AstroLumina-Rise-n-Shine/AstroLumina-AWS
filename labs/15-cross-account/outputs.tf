@@ -12,8 +12,3 @@ output "account_b_user" {
   description = "Name of the IAM user created in account B with sts:AssumeRole permission"
   value       = module.account_b_user.user_name
 }
-
-output "assumed_account_id" {
-  description = "Account ID reported by GetCallerIdentity through the assumed_from_b provider -- should be 111111111111 (account A), proving the assume-role chain works end to end"
-  value       = data.aws_caller_identity.assumed.account_id
-}

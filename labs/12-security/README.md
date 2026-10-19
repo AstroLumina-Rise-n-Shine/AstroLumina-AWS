@@ -18,7 +18,9 @@ log file validation) feeding its own trail bucket.
 
 - 1 customer-managed KMS key with alias `alias/astrolumina-learning-security`
 - 1 GuardDuty detector
-- 1 Security Hub enablement for the account
+- Security Hub **switched off on Floci** (`enable_security_hub = false`): the
+  emulator cannot disable Security Hub once enabled, so the provider resource
+  cannot round-trip; on real AWS flip the toggle to manage it too
 - 1 S3 bucket `astrolumina-learning-security-cloudtrail` with a lock-down bucket policy
 - 1 CloudTrail trail `astrolumina-learning-security` — CMK-encrypted, log file
   validation enabled, writing to the trail bucket
@@ -44,7 +46,8 @@ aws --no-cli-pager kms list-aliases
 # The threat-detection detector
 aws --no-cli-pager guardduty list-detectors
 
-# Security Hub is enabled for the account
+# Security Hub is not managed by this lab on Floci (see "Resources created");
+# this reads the emulator's own hub state. On real AWS the module manages it.
 aws --no-cli-pager securityhub describe-hub
 
 # The audit trail and its current status (IsLogging should be true)
@@ -67,5 +70,6 @@ terraform destroy
 ## Try next
 
 - Look at the trail bucket's policy (`aws s3api get-bucket-policy --bucket astrolumina-learning-security-cloudtrail`) and find what CloudTrail is allowed to do
-- Flip one toggle off (e.g. `enable_security_hub = false`) and re-apply to see how declarative toggles cascade
+- Flip a toggle and re-apply to watch declarative toggles cascade (e.g.
+  `enable_guardduty = false`; `enable_security_hub = true` needs real AWS)
 - Attach the KMS key from this lab to encryption elsewhere (this exact pattern is used inside lab 09's EKS setup)
