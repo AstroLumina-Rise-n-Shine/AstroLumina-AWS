@@ -1,0 +1,15 @@
+# Terraform working files
+.terraform/
+.terraform.lock.hcl
+crash.log
+
+# State files — never committed
+*.tfstate
+*.tfstate.*
+
+# scripts/check-local.sh scratch space
+.local-check/
+
+# Lambda build artifact (labs/06-lambda)
+handler.zip
+*.zip

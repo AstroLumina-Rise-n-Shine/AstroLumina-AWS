@@ -1,0 +1,76 @@
+---
+name: Labs Validate
+
+# All third-party actions are pinned to immutable commit SHAs
+# (instead of floating tags) to protect against supply-chain attacks.
+# The original version tag is kept as a trailing comment for readability.
+# SHAs are identical to the ones used by the Library CI
+# (AstroLumina-Terraform-Library/.github/workflows/library-ci.yml).
+
+# NOTE: no apply ever runs in CI — fmt and validate only.
+# NOTE: the validate job resolves lab module sources from the pinned
+# AstroLumina-Terraform-Library release tag (`1.0.4`), so this job requires
+# that tag and its modules to exist in the Library first. To validate
+# against a local Library checkout, use scripts/check-local.sh.
+
+on:
+  push:
+    branches: ["**"]
+    paths:
+      - "**/*.tf"
+      - "labs/**"
+      - "scripts/**"
+      - ".github/workflows/validate.yml"
+  pull_request:
+    paths:
+      - "**/*.tf"
+      - "labs/**"
+      - "scripts/**"
+      - ".github/workflows/validate.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  fmt:
+    name: Terraform fmt
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@b9cd54a3c349d3f38e8881555d616ced269862dd # v3
+        with:
+          terraform_version: "1.9.*"
+
+      - name: Check formatting
+        run: terraform fmt -check -recursive -diff
+
+  validate:
+    name: Validate (labs, no apply)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@b9cd54a3c349d3f38e8881555d616ced269862dd # v3
+        with:
+          terraform_version: "1.9.*"
+
+      # Module sources are git:: refs into AstroLumina-Terraform-Library@1.0.4:
+      # they resolve from the pinned Library release tag, so this job requires
+      # that tag and its modules to exist in the Library first.
+      - name: Terraform init (no backend — validation only)
+        run: |
+          for d in labs/*/; do
+            echo "--- $d ---"
+            terraform -chdir="$d" init -backend=false -input=false
+          done
+
+      - name: Terraform validate (labs)
+        run: |
+          for d in labs/*/; do
+            echo "--- $d ---"
+            terraform -chdir="$d" validate -no-color
+          done
