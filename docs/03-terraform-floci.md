@@ -72,7 +72,7 @@ floci stop
 
 More AWS modules live in the separate
 [AstroLumina-Terraform-Library](https://github.com/AstroLumina-Rise-n-Shine/AstroLumina-Terraform-Library)
-repo (`modules/aws_vpc`, `modules/eks_cluster`, ...), following the same
+repo (`modules/aws_network`, `modules/aws_eks`, ...), following the same
 contract: `main.tf` +
 `variables.tf` (+ `outputs.tf` when the module exports anything) + a short
 `README.md` with inputs/outputs tables. Develop each against Floci first --

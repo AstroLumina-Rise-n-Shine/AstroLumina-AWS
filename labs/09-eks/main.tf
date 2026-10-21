@@ -33,7 +33,7 @@ provider "aws" {
 
 # Public subnets with auto-assigned public IPs (hosting-lab layout).
 module "network" {
-  source = "git::https://github.com/AstroLumina-Rise-n-Shine/AstroLumina-Terraform-Library.git//modules/aws_network?ref=main"
+  source = "git::https://github.com/AstroLumina-Rise-n-Shine/AstroLumina-Terraform-Library.git//modules/aws_network?ref=1.0.4"
 
   name               = "astrolumina-learning-eks-net"
   cidr_block         = "10.46.0.0/16"
@@ -56,7 +56,7 @@ module "network" {
 # secrets envelope encryption has a key to point at; GuardDuty, Security Hub
 # and CloudTrail are disabled on purpose (labs/12-security covers them in full).
 module "kms_key" {
-  source = "git::https://github.com/AstroLumina-Rise-n-Shine/AstroLumina-Terraform-Library.git//modules/aws_security_baseline?ref=main"
+  source = "git::https://github.com/AstroLumina-Rise-n-Shine/AstroLumina-Terraform-Library.git//modules/aws_security_baseline?ref=1.0.4"
 
   name                = "astrolumina-learning-eks-kms"
   enable_guardduty    = false
@@ -72,7 +72,7 @@ module "kms_key" {
 
 # Real EKS (Floci runs it as a real k3s control plane): heaviest lab, hold on.
 module "eks" {
-  source = "git::https://github.com/AstroLumina-Rise-n-Shine/AstroLumina-Terraform-Library.git//modules/eks_cluster?ref=main"
+  source = "git::https://github.com/AstroLumina-Rise-n-Shine/AstroLumina-Terraform-Library.git//modules/aws_eks?ref=1.0.4"
 
   name               = "astrolumina-learning"
   kubernetes_version = "1.29"

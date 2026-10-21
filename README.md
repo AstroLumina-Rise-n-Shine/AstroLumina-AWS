@@ -14,9 +14,9 @@ zero.
 
 - **AstroLumina-Terraform-Library** — the building blocks: one reusable
   Terraform module per AWS concept (`aws_s3_bucket`, `aws_network`,
-  `eks_cluster`, ...). The labs call these over `git::` sources pinned to
-  the Library's `main` branch. Library changes are developed and merged
-  there first; this repo consumes them.
+  `aws_eks`, ...). The labs call these over `git::` sources pinned to the
+  Library release tag `1.0.4`. Library changes are developed, merged and
+  released there first; this repo consumes the tagged release.
 - **AstroLumina-Terraform** — the actual AstroLumina infrastructure repo
   (the production target). It reuses the same Library modules in earnest.
   These labs exist so that before a module reaches production there, it has
@@ -98,11 +98,12 @@ account by the access key: a 12-digit key *is* the account ID):
   for [labs/15-cross-account](labs/15-cross-account), which demonstrates
   IAM role assumption from a second account.
 
-## Validate locally (without waiting for the Library merge)
+## Validate locally (without waiting for a Library release)
 
-CI validates the labs against the Library's `main` branch, so a Library PR
-must merge first before this repo's `validate` job goes green. To test
-your lab **now**, against your local Library checkout:
+CI validates the labs against the pinned Library release tag (`1.0.4`), so
+a Library change must be merged and released, and the ref bumped here,
+before this repo's `validate` job sees it. To test your lab **now**, against
+your local Library checkout:
 
 ```bash
 ./scripts/check-local.sh
@@ -123,8 +124,8 @@ dashboard setup (port 8080).
 CI (`.github/workflows/validate.yml`) runs two checks only: `terraform fmt
 -check -recursive` and `terraform validate` per lab. **No `apply` ever runs
 in CI** — nothing is deployed from a pipeline, and the validate job resolves
-module sources from the Library's `main`, so the corresponding Library
-change must already be merged there.
+module sources from the pinned Library release tag (`1.0.4`), so a Library
+change must be released and the ref bumped here before CI sees it.
 
 ## Rules of the repo
 

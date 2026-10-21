@@ -31,7 +31,7 @@ provider "aws" {
 # Table: fixed name, composite key (string partition key + numeric sort key)
 # and PAY_PER_REQUEST billing, which on real AWS means no capacity planning.
 module "dynamodb_table" {
-  source = "git::https://github.com/AstroLumina-Rise-n-Shine/AstroLumina-Terraform-Library.git//modules/aws_dynamodb_table?ref=main"
+  source = "git::https://github.com/AstroLumina-Rise-n-Shine/AstroLumina-Terraform-Library.git//modules/aws_dynamodb_table?ref=1.0.4"
 
   name           = "astrolumina-learning-dynamodb"
   hash_key       = "pk" # partition key, attribute name

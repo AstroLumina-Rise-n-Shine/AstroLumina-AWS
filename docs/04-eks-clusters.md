@@ -3,7 +3,7 @@
 ## Can you have one cluster per env?
 
 Yes. An EKS cluster is just an API object with a name: call
-`modules/eks_cluster` once per env with a different `name` and size, and
+`modules/aws_eks` once per env with a different `name` and size, and
 you get three fully independent clusters (see
 `labs/09-eks` in this repo for the single-cluster version, run against
 Floci). Nothing is shared between them -- separate
@@ -41,5 +41,5 @@ The production workload (ArgoCD and everything built so far) stays on the
 RKE2 VMs in KVM -- that is the real cluster. EKS here is the learning
 track: same Terraform language, same Kubernetes concepts, zero risk to the
 real platform. If EKS ever becomes the real target, the promotion path is
-the module itself: same `eks_cluster` calls, pointed at real AWS
+the module itself: same `aws_eks` calls, pointed at real AWS
 credentials instead of the emulator endpoints.

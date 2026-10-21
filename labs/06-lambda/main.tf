@@ -42,7 +42,7 @@ data "archive_file" "lambda_zip" {
 
 # Execution role Lambda assumes while running: basic logging via CloudWatch.
 module "lambda_role" {
-  source = "git::https://github.com/AstroLumina-Rise-n-Shine/AstroLumina-Terraform-Library.git//modules/aws_iam_role?ref=main"
+  source = "git::https://github.com/AstroLumina-Rise-n-Shine/AstroLumina-Terraform-Library.git//modules/aws_iam_role?ref=1.0.4"
 
   name                = "astrolumina-learning-lambda-role"
   assume_role_service = "lambda.amazonaws.com"
@@ -58,7 +58,7 @@ module "lambda_role" {
 
 # The function itself: small Python 3.12 handler with one environment variable.
 module "hello_lambda" {
-  source = "git::https://github.com/AstroLumina-Rise-n-Shine/AstroLumina-Terraform-Library.git//modules/aws_lambda_function?ref=main"
+  source = "git::https://github.com/AstroLumina-Rise-n-Shine/AstroLumina-Terraform-Library.git//modules/aws_lambda_function?ref=1.0.4"
 
   name             = "astrolumina-learning-hello"
   filename         = data.archive_file.lambda_zip.output_path

@@ -32,7 +32,7 @@ provider "aws" {
 # public IPs in public subnets is off by default in the module (secure
 # default); we opt in explicitly because this lab is internet-facing.
 module "network" {
-  source = "git::https://github.com/AstroLumina-Rise-n-Shine/AstroLumina-Terraform-Library.git//modules/aws_network?ref=main"
+  source = "git::https://github.com/AstroLumina-Rise-n-Shine/AstroLumina-Terraform-Library.git//modules/aws_network?ref=1.0.4"
 
   name       = "astrolumina-learning-ec2-net"
   cidr_block = "10.43.0.0/16"
@@ -93,7 +93,7 @@ resource "aws_security_group" "web" {
 # Instance: launched into the first public subnet via the module output, with
 # a user_data script that runs on first boot.
 module "web" {
-  source = "git::https://github.com/AstroLumina-Rise-n-Shine/AstroLumina-Terraform-Library.git//modules/aws_ec2_instance?ref=main"
+  source = "git::https://github.com/AstroLumina-Rise-n-Shine/AstroLumina-Terraform-Library.git//modules/aws_ec2_instance?ref=1.0.4"
 
   name          = "astrolumina-learning-web-01"
   ami           = "ami-ubuntu2404-amd64"

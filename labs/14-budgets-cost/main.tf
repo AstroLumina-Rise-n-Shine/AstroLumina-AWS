@@ -37,7 +37,7 @@ provider "aws" {
 # of the limit. Budgets notifications ride on SNS: the module creates the
 # topic, subscribes the emails and wires the budget to publish there.
 module "monthly_budget" {
-  source = "git::https://github.com/AstroLumina-Rise-n-Shine/AstroLumina-Terraform-Library.git//modules/aws_budget?ref=main"
+  source = "git::https://github.com/AstroLumina-Rise-n-Shine/AstroLumina-Terraform-Library.git//modules/aws_budget?ref=1.0.4"
 
   name = "astrolumina-learning-budget-monthly"
 

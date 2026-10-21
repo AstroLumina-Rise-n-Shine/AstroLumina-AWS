@@ -60,7 +60,7 @@ provider "aws" {
 
 # ---- Account A: the data bucket -------------------------------------------
 module "data_bucket" {
-  source = "git::https://github.com/AstroLumina-Rise-n-Shine/AstroLumina-Terraform-Library.git//modules/aws_s3_bucket?ref=main"
+  source = "git::https://github.com/AstroLumina-Rise-n-Shine/AstroLumina-Terraform-Library.git//modules/aws_s3_bucket?ref=1.0.4"
 
   name               = "astrolumina-learning-cross-data"
   versioning_enabled = true
@@ -73,7 +73,7 @@ module "data_bucket" {
 
 # ---- Account A: the role account B is allowed to assume -------------------
 module "cross_role" {
-  source = "git::https://github.com/AstroLumina-Rise-n-Shine/AstroLumina-Terraform-Library.git//modules/aws_cross_account_role?ref=main"
+  source = "git::https://github.com/AstroLumina-Rise-n-Shine/AstroLumina-Terraform-Library.git//modules/aws_cross_account_role?ref=1.0.4"
 
   # The module names the IAM role exactly this (no prefix), which is why the
   # hardcoded role ARN in the assumed_from_b provider above matches it.
@@ -112,7 +112,7 @@ module "cross_role" {
 
 # ---- Account B: the user that runs the assuming --------------------------
 module "account_b_user" {
-  source = "git::https://github.com/AstroLumina-Rise-n-Shine/AstroLumina-Terraform-Library.git//modules/aws_iam_user?ref=main"
+  source = "git::https://github.com/AstroLumina-Rise-n-Shine/AstroLumina-Terraform-Library.git//modules/aws_iam_user?ref=1.0.4"
 
   # Route this module's resources into account B instead of the default provider.
   providers = { aws = aws.account_b }

@@ -32,7 +32,7 @@ provider "aws" {
 # Network: two private subnets in different AZs — the minimum RDS subnet
 # group layout. No public subnets: databases should never be internet-facing.
 module "network" {
-  source = "git::https://github.com/AstroLumina-Rise-n-Shine/AstroLumina-Terraform-Library.git//modules/aws_network?ref=main"
+  source = "git::https://github.com/AstroLumina-Rise-n-Shine/AstroLumina-Terraform-Library.git//modules/aws_network?ref=1.0.4"
 
   name               = "astrolumina-learning-rds-net"
   cidr_block         = "10.44.0.0/16"
@@ -82,7 +82,7 @@ resource "aws_security_group" "db" {
 # NOTE: password "floci-learning-password" is a dummy for the emulator —
 # never a real secret; on real AWS it would come from tfvars/secret store.
 module "db" {
-  source = "git::https://github.com/AstroLumina-Rise-n-Shine/AstroLumina-Terraform-Library.git//modules/aws_rds?ref=main"
+  source = "git::https://github.com/AstroLumina-Rise-n-Shine/AstroLumina-Terraform-Library.git//modules/aws_rds?ref=1.0.4"
 
   name           = "astrolumina-learning-db"
   engine         = "postgres"
