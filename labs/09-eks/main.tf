@@ -58,7 +58,14 @@ module "network" {
 module "kms_key" {
   source = "git::https://github.com/AstroLumina-Rise-n-Shine/AstroLumina-Terraform-Library.git//modules/aws_security_baseline?ref=1.0.4"
 
-  name                = "astrolumina-learning-eks-kms"
+  name = "astrolumina-learning-eks-kms"
+
+  # Terraform 1.9 does not short-circuit the module's `var == null ||
+  # length(var)` validation, so the null defaults fail `validate` there.
+  # These equal the module's derived defaults; CloudTrail stays disabled.
+  cloudtrail_bucket_name             = "astrolumina-learning-eks-kms-cloudtrail"
+  cloudtrail_access_logs_bucket_name = "astrolumina-learning-eks-kms-cloudtrail-access-logs"
+
   enable_guardduty    = false
   enable_security_hub = false
   enable_cloudtrail   = false

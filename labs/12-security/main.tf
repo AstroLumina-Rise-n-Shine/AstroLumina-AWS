@@ -44,7 +44,13 @@ provider "aws" {
 module "security_baseline" {
   source = "git::https://github.com/AstroLumina-Rise-n-Shine/AstroLumina-Terraform-Library.git//modules/aws_security_baseline?ref=1.0.4"
 
-  name = "astrolumina-learning-security" # also prefixes the KMS alias and defaults the trail bucket name
+  name = "astrolumina-learning-security" # also prefixes the KMS alias
+
+  # Terraform 1.9 does not short-circuit the module's `var == null ||
+  # length(var)` validation, so the null defaults fail `validate` there.
+  # These equal the module's derived defaults, so resource names are unchanged.
+  cloudtrail_bucket_name             = "astrolumina-learning-security-cloudtrail"
+  cloudtrail_access_logs_bucket_name = "astrolumina-learning-security-cloudtrail-access-logs"
 
   # Floci limitation: Security Hub can be ENABLED through the API but the
   # emulator cannot disable it again, so EnableSecurityHub starts answering
