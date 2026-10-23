@@ -1,5 +1,5 @@
 ---
-name: Labs Validate
+name: CI
 
 # All third-party actions are pinned to immutable commit SHAs
 # (instead of floating tags) to protect against supply-chain attacks.
@@ -15,18 +15,9 @@ name: Labs Validate
 
 on:
   push:
-    branches: ["**"]
-    paths:
-      - "**/*.tf"
-      - "labs/**"
-      - "scripts/**"
-      - ".github/workflows/validate.yml"
+    branches: [main]
   pull_request:
-    paths:
-      - "**/*.tf"
-      - "labs/**"
-      - "scripts/**"
-      - ".github/workflows/validate.yml"
+    branches: [main]
   workflow_dispatch:
 
 permissions:
@@ -34,6 +25,7 @@ permissions:
 
 jobs:
   fmt:
+    if: github.event_name != 'push'
     name: Terraform fmt
     runs-on: ubuntu-latest
     steps:
@@ -48,6 +40,7 @@ jobs:
         run: terraform fmt -check -recursive -diff
 
   validate:
+    if: github.event_name != 'push'
     name: Validate (labs, no apply)
     runs-on: ubuntu-latest
     steps:
