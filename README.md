@@ -1,20 +1,8 @@
 # AstroLumina-AWS
 
-> **Documentația completă a proiectului se află în [Wiki](https://github.com/AstroLumina-Rise-n-Shine/AstroLumina-AWS/wiki).**
->
-> Acest fișier conține doar o referință rapidă. Toate detaliile arhitecturale, ghidurile de deployment, configurațiile de securitate și diagramele Mermaid sunt publicate în Wiki pentru o navigare ușoară și versionare istorică.
+Hands-on Terraform labs for learning AWS against the local Floci emulator. Lab documentation is in the [project Wiki](https://github.com/AstroLumina-Rise-n-Shine/AstroLumina-AWS/wiki); the detailed setup guides remain in [`docs/`](docs/) until their Wiki pages are published.
 
----
-
-## Quick Links
-
-- [Wiki Home](https://github.com/AstroLumina-Rise-n-Shine/AstroLumina-AWS/wiki)
-- [Architecture](https://github.com/AstroLumina-Rise-n-Shine/AstroLumina-AWS/wiki/Architecture) (dacă există)
-- [Development](https://github.com/AstroLumina-Rise-n-Shine/AstroLumina-AWS/wiki/Development) (dacă există)
-- [Deployment](https://github.com/AstroLumina-Rise-n-Shine/AstroLumina-AWS/wiki/Deployment) (dacă există)
-- [Security](https://github.com/AstroLumina-Rise-n-Shine/AstroLumina-AWS/wiki/Security) (dacă există)
-
----
-
-*Ultima actualizare: 2026-10-23*
-
+- [Getting started](https://github.com/AstroLumina-Rise-n-Shine/AstroLumina-AWS/wiki/Getting-Started)
+- [Labs index](https://github.com/AstroLumina-Rise-n-Shine/AstroLumina-AWS/wiki/Labs)
+- [EKS autoscaling](https://github.com/AstroLumina-Rise-n-Shine/AstroLumina-AWS/wiki/EKS-Autoscaling)
+- [Redis lab status](https://github.com/AstroLumina-Rise-n-Shine/AstroLumina-AWS/wiki/Redis) (pending)
