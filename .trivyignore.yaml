@@ -1,0 +1,18 @@
+misconfigurations:
+  # ALB access-log destinations require SSE-S3; AWS does not support SSE-KMS
+  # for this use case. AES256 encryption and bucket versioning are enabled.
+  - id: AVD-AWS-0132
+    paths:
+      - "labs/11-alb-ingress/main.tf"
+    statement: >-
+      Application Load Balancer access-log buckets support SSE-S3 only.
+      This bucket explicitly enables AES256 encryption and versioning.
+
+  # This is a dedicated access-log destination. Enabling S3 server access
+  # logging on a log destination risks recursive logging.
+  - id: AVD-AWS-0089
+    paths:
+      - "labs/11-alb-ingress/main.tf"
+    statement: >-
+      This bucket is a dedicated ALB access-log destination; server access
+      logging on a log destination risks recursive logging.

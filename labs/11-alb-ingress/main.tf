@@ -86,6 +86,24 @@ resource "aws_s3_bucket" "alb_access_logs" {
   force_destroy = true
 }
 
+resource "aws_s3_bucket_versioning" "alb_access_logs" {
+  bucket = aws_s3_bucket.alb_access_logs.id
+
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
+
+resource "aws_s3_bucket_server_side_encryption_configuration" "alb_access_logs" {
+  bucket = aws_s3_bucket.alb_access_logs.id
+
+  rule {
+    apply_server_side_encryption_by_default {
+      sse_algorithm = "AES256"
+    }
+  }
+}
+
 resource "aws_s3_bucket_public_access_block" "alb_access_logs" {
   bucket = aws_s3_bucket.alb_access_logs.id
 
@@ -123,7 +141,12 @@ module "alb" {
   security_group_ids = [aws_security_group.alb_sg.id]
   access_logs_bucket = aws_s3_bucket.alb_access_logs.id
   access_logs_prefix = "alb"
-  depends_on         = [aws_s3_bucket_policy.alb_access_logs]
+  depends_on = [
+    aws_s3_bucket_policy.alb_access_logs,
+    aws_s3_bucket_public_access_block.alb_access_logs,
+    aws_s3_bucket_server_side_encryption_configuration.alb_access_logs,
+    aws_s3_bucket_versioning.alb_access_logs,
+  ]
 
   # The module's secure default is internal = true (VPC-only). This lab
   # deliberately exposes the entry point to the internet, so it is flipped off.
