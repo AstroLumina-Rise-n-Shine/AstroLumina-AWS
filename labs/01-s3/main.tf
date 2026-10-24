@@ -32,7 +32,7 @@ provider "aws" {
 # Versioning on so you can overwrite hello.txt later and still see old versions.
 # AES256 is Amazon S3-managed server-side encryption (no KMS key needed here).
 module "s3_bucket" {
-  source = "git::https://github.com/AstroLumina-Rise-n-Shine/AstroLumina-Terraform-Library.git//modules/aws_s3_bucket?ref=1.0.4"
+  source = "git::https://github.com/AstroLumina-Rise-n-Shine/AstroLumina-Terraform-Library.git//modules/aws_s3_bucket?ref=1.0.5"
 
   name               = "astrolumina-learning-s3-data"
   versioning_enabled = true

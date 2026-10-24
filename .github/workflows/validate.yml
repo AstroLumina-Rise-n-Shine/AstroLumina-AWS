@@ -9,7 +9,7 @@ name: CI
 
 # NOTE: no apply ever runs in CI — fmt and validate only.
 # NOTE: the validate job resolves lab module sources from the pinned
-# AstroLumina-Terraform-Library release tag (`1.0.4`), so this job requires
+# AstroLumina-Terraform-Library release tag (`1.0.5`), so this job requires
 # that tag and its modules to exist in the Library first. To validate
 # against a local Library checkout, use scripts/check-local.sh.
 
@@ -51,7 +51,7 @@ jobs:
         with:
           terraform_version: "1.9.*"
 
-      # Module sources are git:: refs into AstroLumina-Terraform-Library@1.0.4:
+      # Module sources are git:: refs into AstroLumina-Terraform-Library@1.0.5:
       # they resolve from the pinned Library release tag, so this job requires
       # that tag and its modules to exist in the Library first.
       - name: Terraform init (no backend — validation only)
@@ -79,15 +79,19 @@ jobs:
       security-events: write
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
       - name: Run Semgrep
         id: semgrep
         run: semgrep --config p/default --jobs 1 --sarif --output=semgrep.sarif
       - name: Upload SARIF to GitHub
         if: always() && steps.semgrep.outcome == 'success'
-        uses: github/codeql-action/upload-sarif@87ef0dc97def48aa960fbf026a2563ee9dbdb470 # v3
+        uses: github/codeql-action/upload-sarif@9b3254085494b55a0f7c4c2b3d2d52cc712ce370 # v4
         with:
           sarif_file: semgrep.sarif
           category: semgrep
+          ref: refs/pull/${{ github.event.pull_request.number }}/head
+          sha: ${{ github.event.pull_request.head.sha }}
 
   trivy-config:
     if: github.event_name == 'pull_request'
@@ -98,6 +102,8 @@ jobs:
       security-events: write
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
       - uses: aquasecurity/trivy-action@ed142fd0673e97e23eac54620cfb913e5ce36c25 # v0.36.0
         with:
           scan-type: config
@@ -106,9 +112,12 @@ jobs:
           output: trivy-results.sarif
           severity: HIGH,CRITICAL
           exit-code: "0"
+          trivyignores: .trivyignore.yaml
       - name: Upload SARIF to code scanning
         if: always() && hashFiles('trivy-results.sarif') != ''
-        uses: github/codeql-action/upload-sarif@87ef0dc97def48aa960fbf026a2563ee9dbdb470 # v3
+        uses: github/codeql-action/upload-sarif@9b3254085494b55a0f7c4c2b3d2d52cc712ce370 # v4
         with:
           sarif_file: trivy-results.sarif
           category: trivy
+          ref: refs/pull/${{ github.event.pull_request.number }}/head
+          sha: ${{ github.event.pull_request.head.sha }}
