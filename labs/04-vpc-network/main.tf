@@ -32,7 +32,7 @@ provider "aws" {
 # across two AZs. NAT is off by default in the module; flipping it on is a
 # "try next" item — Floci NAT support unverified.
 module "network" {
-  source = "git::https://github.com/AstroLumina-Rise-n-Shine/AstroLumina-Terraform-Library.git//modules/aws_network?ref=1.0.4"
+  source = "git::https://github.com/AstroLumina-Rise-n-Shine/AstroLumina-Terraform-Library.git//modules/aws_network?ref=1.0.5"
 
   name       = "astrolumina-learning-network"
   cidr_block = "10.42.0.0/16"

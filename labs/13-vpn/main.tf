@@ -35,7 +35,7 @@ provider "aws" {
 # The cloud side of the VPN: a VPC with one public subnet where the VPN
 # gateway attaches logically.
 module "vpn_net" {
-  source = "git::https://github.com/AstroLumina-Rise-n-Shine/AstroLumina-Terraform-Library.git//modules/aws_network?ref=1.0.4"
+  source = "git::https://github.com/AstroLumina-Rise-n-Shine/AstroLumina-Terraform-Library.git//modules/aws_network?ref=1.0.5"
 
   name                 = "astrolumina-learning-vpn-net"
   cidr_block           = "10.48.0.0/16"
@@ -53,7 +53,7 @@ module "vpn_net" {
 # VPN connection with two IPsec tunnels) plus static routes pointing at your
 # on-premises networks.
 module "vpn" {
-  source = "git::https://github.com/AstroLumina-Rise-n-Shine/AstroLumina-Terraform-Library.git//modules/aws_vpn?ref=1.0.4"
+  source = "git::https://github.com/AstroLumina-Rise-n-Shine/AstroLumina-Terraform-Library.git//modules/aws_vpn?ref=1.0.5"
 
   name = "astrolumina-learning-vpn"
 

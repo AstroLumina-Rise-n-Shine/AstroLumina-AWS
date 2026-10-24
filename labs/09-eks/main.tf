@@ -33,7 +33,7 @@ provider "aws" {
 
 # Public subnets with auto-assigned public IPs (hosting-lab layout).
 module "network" {
-  source = "git::https://github.com/AstroLumina-Rise-n-Shine/AstroLumina-Terraform-Library.git//modules/aws_network?ref=1.0.4"
+  source = "git::https://github.com/AstroLumina-Rise-n-Shine/AstroLumina-Terraform-Library.git//modules/aws_network?ref=1.0.5"
 
   name               = "astrolumina-learning-eks-net"
   cidr_block         = "10.46.0.0/16"
@@ -56,7 +56,7 @@ module "network" {
 # secrets envelope encryption has a key to point at; GuardDuty, Security Hub
 # and CloudTrail are disabled on purpose (labs/12-security covers them in full).
 module "kms_key" {
-  source = "git::https://github.com/AstroLumina-Rise-n-Shine/AstroLumina-Terraform-Library.git//modules/aws_security_baseline?ref=1.0.4"
+  source = "git::https://github.com/AstroLumina-Rise-n-Shine/AstroLumina-Terraform-Library.git//modules/aws_security_baseline?ref=1.0.5"
 
   name = "astrolumina-learning-eks-kms"
 
@@ -79,7 +79,7 @@ module "kms_key" {
 
 # Real EKS (Floci runs it as a real k3s control plane): heaviest lab, hold on.
 module "eks" {
-  source = "git::https://github.com/AstroLumina-Rise-n-Shine/AstroLumina-Terraform-Library.git//modules/aws_eks?ref=1.0.4"
+  source = "git::https://github.com/AstroLumina-Rise-n-Shine/AstroLumina-Terraform-Library.git//modules/aws_eks?ref=1.0.5"
 
   name               = "astrolumina-learning"
   kubernetes_version = "1.29"
@@ -89,9 +89,15 @@ module "eks" {
   cluster_encryption_key_arn = module.kms_key.kms_key_arn
 
   instance_types = ["t3.small"]
-  desired_size   = 1
-  min_size       = 1
-  max_size       = 1
+
+  # Cluster Autoscaler: enabled here but NOT installed by Terraform. The Helm
+  # chart is installed outside Terraform against the IRSA role output by this
+  # module (see outputs.tf); the module only sets up IAM/OIDC + discovery tags.
+  enable_cluster_autoscaler = true
+
+  desired_size = 1 # pinned to min_size by the module while the autoscaler is on
+  min_size     = 1
+  max_size     = 3
 
   environment = "learning"
 

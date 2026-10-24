@@ -32,7 +32,7 @@ provider "aws" {
 # collides with anything real. The two A record IPs come from 192.0.2.0/24
 # (TEST-NET-1, reserved for documentation) -- they cannot be routed anywhere.
 module "dns_zone" {
-  source = "git::https://github.com/AstroLumina-Rise-n-Shine/AstroLumina-Terraform-Library.git//modules/aws_route53_zone?ref=1.0.4"
+  source = "git::https://github.com/AstroLumina-Rise-n-Shine/AstroLumina-Terraform-Library.git//modules/aws_route53_zone?ref=1.0.5"
 
   name = "astrolumina-learning.test"
 

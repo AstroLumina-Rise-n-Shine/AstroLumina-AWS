@@ -42,7 +42,7 @@ provider "aws" {
 # emulator cannot disable it once enabled, so the provider resource cannot
 # round-trip (see the module call).
 module "security_baseline" {
-  source = "git::https://github.com/AstroLumina-Rise-n-Shine/AstroLumina-Terraform-Library.git//modules/aws_security_baseline?ref=1.0.4"
+  source = "git::https://github.com/AstroLumina-Rise-n-Shine/AstroLumina-Terraform-Library.git//modules/aws_security_baseline?ref=1.0.5"
 
   name = "astrolumina-learning-security" # also prefixes the KMS alias
 

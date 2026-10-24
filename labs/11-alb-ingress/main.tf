@@ -33,7 +33,7 @@ provider "aws" {
 # least two subnets in different AZs, which is why the module call here never
 # goes below two public subnets.
 module "alb_net" {
-  source = "git::https://github.com/AstroLumina-Rise-n-Shine/AstroLumina-Terraform-Library.git//modules/aws_network?ref=1.0.4"
+  source = "git::https://github.com/AstroLumina-Rise-n-Shine/AstroLumina-Terraform-Library.git//modules/aws_network?ref=1.0.5"
 
   name                    = "astrolumina-learning-alb-net"
   cidr_block              = "10.47.0.0/16"
@@ -81,7 +81,7 @@ resource "aws_security_group" "alb_sg" {
 # The ALB itself, with one HTTP listener on port 80 and an (empty for now)
 # IP target group that health-checks "/".
 module "alb" {
-  source = "git::https://github.com/AstroLumina-Rise-n-Shine/AstroLumina-Terraform-Library.git//modules/aws_alb?ref=1.0.4"
+  source = "git::https://github.com/AstroLumina-Rise-n-Shine/AstroLumina-Terraform-Library.git//modules/aws_alb?ref=1.0.5"
 
   name               = "astrolumina-learning-alb"
   vpc_id             = module.alb_net.vpc_id
