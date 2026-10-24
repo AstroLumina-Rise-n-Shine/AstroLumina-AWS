@@ -88,6 +88,8 @@ jobs:
         with:
           sarif_file: semgrep.sarif
           category: semgrep
+          ref: refs/pull/${{ github.event.pull_request.number }}/head
+          sha: ${{ github.event.pull_request.head.sha }}
 
   trivy-config:
     if: github.event_name == 'pull_request'
@@ -113,3 +115,5 @@ jobs:
         with:
           sarif_file: trivy-results.sarif
           category: trivy
+          ref: refs/pull/${{ github.event.pull_request.number }}/head
+          sha: ${{ github.event.pull_request.head.sha }}
