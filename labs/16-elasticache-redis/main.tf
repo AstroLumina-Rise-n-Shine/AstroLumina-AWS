@@ -33,7 +33,7 @@ provider "aws" {
 # subnet group layout. No public subnets: caches should never be
 # internet-facing.
 module "network" {
-  source = "git::https://github.com/AstroLumina-Rise-n-Shine/AstroLumina-Terraform-Library.git//modules/aws_network?ref=1.0.5"
+  source = "git::https://github.com/AstroLumina-Rise-n-Shine/AstroLumina-Terraform-Library.git//modules/aws_network?ref=1.0.6"
 
   name               = "astrolumina-learning-elasticache-net"
   cidr_block         = "10.47.0.0/16"
@@ -53,7 +53,7 @@ module "network" {
 # no ingress rules; port 6379 is opened only to the lab VPC CIDR. At-rest and
 # transit encryption keep the module defaults (both on).
 module "redis" {
-  source = "git::https://github.com/AstroLumina-Rise-n-Shine/AstroLumina-Terraform-Library.git//modules/aws_elasticache_redis?ref=1.0.5"
+  source = "git::https://github.com/AstroLumina-Rise-n-Shine/AstroLumina-Terraform-Library.git//modules/aws_elasticache_redis?ref=1.0.6"
 
   name = "astrolumina-learning-cache"
 

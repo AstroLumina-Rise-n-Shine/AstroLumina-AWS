@@ -32,7 +32,7 @@ provider "aws" {
 # Lambda function needs), with an AWS-managed logging policy plus a least-
 # privilege inline policy granting only s3:GetObject.
 module "app_role" {
-  source = "git::https://github.com/AstroLumina-Rise-n-Shine/AstroLumina-Terraform-Library.git//modules/aws_iam_role?ref=1.0.5"
+  source = "git::https://github.com/AstroLumina-Rise-n-Shine/AstroLumina-Terraform-Library.git//modules/aws_iam_role?ref=1.0.6"
 
   name = "astrolumina-learning-app-role"
 
@@ -65,7 +65,7 @@ module "app_role" {
 # User: human/programmatic identity with its own access key and the read-only
 # AWS-managed policy attached.
 module "app_user" {
-  source = "git::https://github.com/AstroLumina-Rise-n-Shine/AstroLumina-Terraform-Library.git//modules/aws_iam_user?ref=1.0.5"
+  source = "git::https://github.com/AstroLumina-Rise-n-Shine/AstroLumina-Terraform-Library.git//modules/aws_iam_user?ref=1.0.6"
 
   name = "astrolumina-learning-app-user"
 

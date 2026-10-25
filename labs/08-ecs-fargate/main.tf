@@ -33,7 +33,7 @@ provider "aws" {
 # Public subnets with auto-assigned public IPs so the Fargate task ENI can
 # pull the image and be reachable without a NAT/load-balancer layer.
 module "network" {
-  source = "git::https://github.com/AstroLumina-Rise-n-Shine/AstroLumina-Terraform-Library.git//modules/aws_network?ref=1.0.5"
+  source = "git::https://github.com/AstroLumina-Rise-n-Shine/AstroLumina-Terraform-Library.git//modules/aws_network?ref=1.0.6"
 
   name               = "astrolumina-learning-ecs-net"
   cidr_block         = "10.45.0.0/16"
@@ -83,7 +83,7 @@ resource "aws_security_group" "web" {
 
 # One nginx:alpine task Floci runs as a real local container.
 module "ecs" {
-  source = "git::https://github.com/AstroLumina-Rise-n-Shine/AstroLumina-Terraform-Library.git//modules/aws_ecs_fargate?ref=1.0.5"
+  source = "git::https://github.com/AstroLumina-Rise-n-Shine/AstroLumina-Terraform-Library.git//modules/aws_ecs_fargate?ref=1.0.6"
 
   name   = "astrolumina-learning-ecs"
   image  = "nginx:alpine"
